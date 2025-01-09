@@ -1,30 +1,21 @@
 const express = require("express");
+const { userAuth, adminAuth } = require("./middlewares/auth");
 
 const app = express();
 
-app.use(
-    "/user",
-    (req, res, next) => {
-        console.log("response1 log");
-        // res.send("Response1");
-        next();
-    },
-    (req, res, next) => {
-        console.log("response2 log");
-        // res.send("Response2");
-        next();
-    },
-    (req, res, next) => {
-        console.log("response3 log");
-        // res.send("Response3");
-        next();
-    },
-    (req, res, next) => {
-        console.log("response4 log");
-        res.send("Response4");
-        // next();
-    },
-);
+app.get("/user/data", userAuth, (req, res) => {
+    res.send("User Data send");
+});
+
+app.use("/admin", adminAuth);
+
+app.get("/admin/getAllData", (req, res) => {
+    res.send("Get All Admin Data");
+});
+
+app.get("/admin/deleteAdmin", (req, res) => {
+    res.send("delete admin data");
+});
 
 app.listen(4500, () => {
     console.log("Server is running on port 4500");

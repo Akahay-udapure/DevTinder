@@ -4,18 +4,16 @@ const User = require("./models/user");
 
 const app = express();
 
-app.post("/signup", async (req, res) => {
-    const user = new User({
-        firstName: "Akshay",
-        lastName: "Udapure",
-        emailId: "akshay@gmail.com",
-        password: "aws@123",
-        age: 26,
-        gender: "Male",
-    });
+app.use(express.json()); // express middleware to read Json data which is comming in request body
 
-    await user.save();
-    res.status(200).send("User registred successfully");
+app.post("/signup", async (req, res) => {
+    const user = new User(req.body);
+    try {
+        await user.save();
+        res.status(200).send("User registred successfully");
+    } catch (error) {
+        res.status(400).send("Error while saving the user " + error.message);
+    }
 });
 
 connectDB()

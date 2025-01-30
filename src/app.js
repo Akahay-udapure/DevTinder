@@ -43,16 +43,30 @@ app.delete("/deleteUser", async (req, res) => {
     }
 });
 
-app.patch("/updateUserById", async (req, res) => {
+app.patch("/updateUserById/:userId", async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(
-            { _id: req.body.userId },
-            req.body,
-            {
-                returnDocument: "after",
-            },
-        ); // here by default options for returnDocument is before
-        console.log(user, "--");
+        const ALLOWED_UPDATES = [
+            "about",
+            "skills",
+            "age",
+            "photoUrl",
+            "gender",
+            "firstName",
+            "lastName",
+        ];
+        const isUpdatesAllowd = Object.keys(req.body).every((k) =>
+            ALLOWED_UPDATES.includes(k),
+        );
+        if (!isUpdatesAllowd) {
+            throw new Error("unknow data not allowed to update");
+        }
+        if (req.body.skills.length > 10) {
+            throw new Error("Skills can not be more than 10");
+        }
+        await User.findByIdAndUpdate({ _id: req.params.userId }, req.body, {
+            returnDocument: "after",
+            runValidators: true,
+        }); // here by default options for returnDocument is before
         res.send("User Updated Successfully");
     } catch (error) {
         res.status(400).send({ message: error.message });
@@ -66,9 +80,9 @@ app.patch("/updateUserByEmail", async (req, res) => {
             req.body,
             {
                 returnDocument: "after",
+                runValidators: true,
             },
         ); // here by default options for returnDocument is before
-        console.log(user, "--");
         res.send("User Updated Successfully");
     } catch (error) {
         res.status(400).send({ message: error.message });

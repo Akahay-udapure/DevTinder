@@ -1,18 +1,48 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
-
+const { validateSignupData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
 const app = express();
 
 app.use(express.json()); // express middleware to read Json data which is comming in request body
 
 app.post("/signup", async (req, res) => {
-    const user = new User(req.body);
     try {
+        validateSignupData(req);
+        const { firstName, lastName, emailId, password } = req.body;
+
+        const passwordHash = await bcrypt.hash(password, 10);
+        const user = new User({
+            firstName,
+            lastName,
+            emailId,
+            password: passwordHash,
+        });
         await user.save();
         res.status(200).send("User registred successfully");
     } catch (error) {
-        res.status(400).send("Error while saving the user " + error.message);
+        res.status(400).send("ERROR : " + error.message);
+    }
+});
+
+app.post("/login", async (req, res) => {
+    try {
+        const { emailId, password } = req.body;
+        const isUserExit = await User.findOne({ emailId: emailId });
+        if (!isUserExit) {
+            throw new Error("Invalid Crenttials");
+        }
+        const isPasswordCorrect = await bcrypt.compare(
+            password,
+            isUserExit.password,
+        );
+        if (!isPasswordCorrect) {
+            throw new Error("Invalid Crenttials");
+        }
+        res.send("Login Successfull!!!");
+    } catch (error) {
+        res.status(400).send("ERROR : " + error.message);
     }
 });
 

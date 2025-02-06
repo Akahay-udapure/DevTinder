@@ -3,9 +3,14 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const { validateSignupData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
+const JWT = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const { userAuth } = require("./middlewares/auth");
+
 const app = express();
 
 app.use(express.json()); // express middleware to read Json data which is comming in request body
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
     try {
@@ -33,14 +38,14 @@ app.post("/login", async (req, res) => {
         if (!isUserExit) {
             throw new Error("Invalid Crenttials");
         }
-        const isPasswordCorrect = await bcrypt.compare(
-            password,
-            isUserExit.password,
-        );
-        if (!isPasswordCorrect) {
+        const isPasswordCorrect = await isUserExit.validatePassword(password);
+        if (isPasswordCorrect) {
+            const token = await isUserExit.getJWT();
+            res.cookie("token", token);
+            res.send("Login Successfull!!!");
+        } else {
             throw new Error("Invalid Crenttials");
         }
-        res.send("Login Successfull!!!");
     } catch (error) {
         res.status(400).send("ERROR : " + error.message);
     }
@@ -116,6 +121,15 @@ app.patch("/updateUserByEmail", async (req, res) => {
         res.send("User Updated Successfully");
     } catch (error) {
         res.status(400).send({ message: error.message });
+    }
+});
+
+app.get("/profile", userAuth, async (req, res) => {
+    try {
+        const user = req.user;
+        res.send(user);
+    } catch (error) {
+        res.status(400).send("ERROR : " + error.message);
     }
 });
 

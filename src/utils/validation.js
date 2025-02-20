@@ -23,6 +23,10 @@ const validateEditUserData = (req) => {
         "skills",
     ];
 
+    if (req.body.skills.length > 10) {
+        throw new Error("Skills can not be more than 10");
+    }
+
     const isAllowFieldToEdit = Object.keys(req.body).every((field) =>
         allowedEditField.includes(field),
     );

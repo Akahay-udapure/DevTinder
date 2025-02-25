@@ -3,7 +3,7 @@ const User = require("../models/user");
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 
-const USER_DATA = "firstName lastName age gender about skills";
+const USER_DATA = "firstName lastName age gender about skills photoUrl";
 
 userRouter.get("/getAllUser", async (req, res) => {
     try {
@@ -136,7 +136,6 @@ userRouter.get("/feed", userAuth, async (req, res) => {
         limit = limit > 50 ? 50 : limit;
 
         const skip = (page - 1) * limit;
-        console.log(skip);
 
         const connectionRequest = await ConnectionRequest.find({
             $or: [

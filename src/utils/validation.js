@@ -23,7 +23,7 @@ const validateEditUserData = (req) => {
         "skills",
     ];
 
-    if (req.body.skills.length > 10) {
+    if (req.body.skills && req.body.skills.length > 10) {
         throw new Error("Skills can not be more than 10");
     }
 

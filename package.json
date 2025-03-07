@@ -1,31 +1,31 @@
 {
-  "name": "devtinder",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Akahay-udapure/DevTinder.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Akahay-udapure/DevTinder/issues"
-  },
-  "homepage": "https://github.com/Akahay-udapure/DevTinder#readme",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.4",
-    "nodemon": "^3.1.9",
-    "validator": "^13.12.0"
-  }
+    "name": "devtinder",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node src/app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Akahay-udapure/DevTinder.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Akahay-udapure/DevTinder/issues"
+    },
+    "homepage": "https://github.com/Akahay-udapure/DevTinder#readme",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.9.4",
+        "nodemon": "^3.1.9",
+        "validator": "^13.12.0"
+    }
 }

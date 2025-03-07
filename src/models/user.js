@@ -47,7 +47,8 @@ const userSchema = new mongoose.Schema(
         },
         photoUrl: {
             type: String,
-            default: "dd",
+            default:
+                "http://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-male-user-profile-vector-illustration-isolated-background-man-profile-sign-business-concept_157943-38764.jpg?semt=ais_hybrid",
         },
         about: {
             type: String,

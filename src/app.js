@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/database");
 const cookieParser = require("cookie-parser");
@@ -13,8 +14,16 @@ app.use(
     cors({
         origin: "http://localhost:5173",
         credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Ensure PATCH is included
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization",
+            "X-Requested-With",
+            "Access-Control-Allow-Credentials",
+        ],
     }),
 );
+
 app.use(express.json()); // express middleware to read Json data which is comming in request body
 app.use(cookieParser());
 
@@ -27,7 +36,7 @@ connectDB()
     .then(() => {
         console.log("Connection established successfully....");
         app.listen(4500, () => {
-            console.log("Server is running on port 4500");
+            console.log("Server is running on port " + 4500);
         });
     })
     .catch(() => {

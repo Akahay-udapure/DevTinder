@@ -41,5 +41,6 @@ connectDB()
     })
     .catch((error) => {
         console.log(error);
+
         console.log("Connection cannot connected....");
     });

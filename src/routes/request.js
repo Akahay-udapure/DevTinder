@@ -3,6 +3,7 @@ const ConnectionRequest = require("../models/connectionRequest");
 const { userAuth } = require("../middlewares/auth");
 const User = require("../models/user");
 const { isValidObjectId } = require("mongoose");
+const sendEmail = require("../utils/sendEmail");
 
 requestRouter.post(
     "/request/send/:status/:toUserId",
@@ -50,6 +51,7 @@ requestRouter.post(
             });
 
             const data = await connection.save();
+
             const message =
                 status == "interested"
                     ? req.user.firstName +
@@ -58,6 +60,10 @@ requestRouter.post(
                     : req.user.firstName +
                       " is not interested in " +
                       toUser.firstName;
+            const emailRes = await sendEmail.run(
+                "Connection Request from " + req.user.firstName,
+                message,
+            );
             res.json({
                 message: message,
                 data,

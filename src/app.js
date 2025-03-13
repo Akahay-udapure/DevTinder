@@ -35,10 +35,11 @@ app.use("/", userRouter);
 connectDB()
     .then(() => {
         console.log("Connection established successfully....");
-        app.listen(4500, () => {
-            console.log("Server is running on port " + 4500);
+        app.listen(process.env.PORT, () => {
+            console.log("Server is running on port " + process.env.PORT);
         });
     })
-    .catch(() => {
+    .catch((error) => {
+        console.log(error);
         console.log("Connection cannot connected....");
     });

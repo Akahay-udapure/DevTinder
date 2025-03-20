@@ -10,6 +10,8 @@ const cors = require("cors");
 
 const app = express();
 
+require("./utils/cronJob");
+
 app.use(
     cors({
         origin: "http://localhost:5173",

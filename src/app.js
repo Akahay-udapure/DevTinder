@@ -10,7 +10,7 @@ const cors = require("cors");
 
 const app = express();
 
-require("./utils/cronJob");
+// require("./utils/cronJob");
 
 app.use(
     cors({

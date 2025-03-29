@@ -47,6 +47,7 @@ const initializeSocket = (server) => {
                         firstName,
                         lastName,
                         text,
+                        time: new Date(),
                     });
                 } catch (err) {
                     console.log(err);
